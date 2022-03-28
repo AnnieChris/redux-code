@@ -1,10 +1,18 @@
-const counterReducer = (data = 0, action) =>{
-    console.log('Inside Reducer');
-    switch(action.type){
+const choosecolorReducer = (color= 'none', action) =>{
+    console.log("Inside Color Reducer");
+    switch(action.type)
+    {
         case 'RED':
-            return data+1; 
+            return color='Red'; 
+        case 'BLUE':
+            return color='Blue';
         case 'GREEN':
-            return data-1;   
+            return color='Green';
+        case 'YELLOW':
+            return color='Yellow';   
+        default :
+            return color='none';
+        
     }
 }
-export default counterReducer;
+export default choosecolorReducer;

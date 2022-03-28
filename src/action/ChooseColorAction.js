@@ -1,12 +1,21 @@
-export const increment =() =>{
-    console.log('Inside Action');
+console.log("Inside Action");
+export const red = () =>{
     return{
-        type : 'RED'
+        type:'RED'
     };
 }
-
-export const decrement =() =>{
+export const blue = () =>{
     return{
-        type : 'GREEN'
+        type:'BLUE'
+    };
+}
+export const green = () =>{
+    return{
+        type:'GREEN'
+    };
+}
+export const yellow = () =>{
+    return{
+        type:'YELLOW'
     };
 }

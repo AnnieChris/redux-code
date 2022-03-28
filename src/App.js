@@ -1,74 +1,56 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 
-import { connect } from 'react-redux';
+import {red} from './action/ChooseColorAction';
+import {blue} from './action/ChooseColorAction';
+import {green} from './action/ChooseColorAction';
+import {yellow} from './action/ChooseColorAction';
 
-import {useSelector} from 'react-redux';
-import {increment} from './action/CounterAction';
-import {decrement} from './action/CounterAction'; 
-import  { useDispatch } from 'react-redux';
-function App(props) {
+function App() {
+  console.log("Inside App");
+  const color = useSelector((state)=>{return state});
+  const dispatch = useDispatch();
 
- 
-  const [color,setColor] = useState("pink");
-   //const [color,setColor] = useState(null);
-
-  /* console.log('Inside UI');
-  const counter = useSelector(state=>state);
-  const decrecounter = useSelector(state=>state+2);
-  const dispatch = useDispatch(); */
-
-  let dispatch = useDispatch();
-  const colVal = useSelector(state => state.color);
-
-  useEffect(()=> {
-    console.log(props);
-  })
-
-  const handleChange = (e)=>{
-    //setColor(e.target.value);
-    
-    dispatch({
-      type : "CHANGE_COLOR",
-      payload:e.target.value
-    })
+  var bg = {
+    "red" : "#FF0000",
+    "blue" : "#0000FF",
+    "green" : "#008000",
+    "yellow" : "#FFFF00"
+  }
+  window.onload=function(){
+    var bgcolr = document.getElementsByName('colr');
+    for(var i=0;i<bgcolr.length;i++)
+    {
+      bgcolr[i].onclick=function(){
+        var col = bg[this.value];
+        document.body.style.backgroundColor=col;
+      }
+    }
 
   }
 
+
   return (
     <div className="App">
-      <h1>My fav color is : {colVal}</h1>
-      <input type ="radio" name="color" value="red" onClick={handleChange}/>Red
-      <input type ="radio" name="color" value="blue" onClick={handleChange}/>Blue
-      <input type ="radio" name="color" value="green" onClick={handleChange}/>Green
-      <input type ="radio" name="color" value="yellow" onClick={handleChange}/>Yellow
 
+      <h1>Choose any Colors from Below</h1>
+      
+      <input type='radio' name='colr' value='red' id='red' onClick={()=>dispatch(red())} /> 
+      <label htmlFor='red'>Red</label>
 
-      {/* <h1>Incrementing the value : {counter}</h1>
-      <button onClick={()=>dispatch(increment())}>increment + </button>
+      <input type='radio' name='colr' value='blue' id='blue' onClick={()=>dispatch(blue())} /> 
+      <label htmlFor='blue'>Blue</label>
 
-      <h1>Decrementing the value : {decrecounter}</h1>
-      <button onClick={()=>dispatch(decrement())}>decrement - </button> */}
+      <input type='radio' name='colr' value='green' id='green' onClick={()=>dispatch(green())} />  
+      <label htmlFor='green'>Green</label>
 
+      <input type='radio' name='colr' value='yellow' id='yellow' onClick={()=>dispatch(yellow())} />  
+      <label htmlFor='yellow'>Yellow</label>
+
+      <h2>Selected color is : {color}</h2>
 
     </div>
   );
 }
 
-
-const mapStateToProps = state =>{
-  return {
-    data : state
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return{
-    changeColor : (color) => dispatch({
-      type : "CHANGE_COLOR", payload:color
-    })
-  }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
