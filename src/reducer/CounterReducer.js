@@ -4,7 +4,9 @@ const counterReducer = (data = 0, action) =>{
         case 'INCREMENT':
             return data+1; 
         case 'DECREMENT':
-            return data-1;   
+            return data-1; 
+        default :
+            return data;  
     }
 }
 export default counterReducer;

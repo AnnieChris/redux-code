@@ -1,17 +1,48 @@
 import './App.css';
-import {useSelector, useDispatch} from 'react-redux';
+import { useState } from 'react';
+import ReactDOM from "react-dom";
+//import {useSelector, useDispatch, connect} from 'react-redux';
+//import {red,blue,green,yellow} from ColorAction;
+//import ColorReducer from './reducer/ColorReducer';
 
-import {red} from './action/ChooseColorAction';
-import {blue} from './action/ChooseColorAction';
-import {green} from './action/ChooseColorAction';
-import {yellow} from './action/ChooseColorAction';
 
 function App() {
+
+  const[checked,setChecked] = useState([]);
+  const checkList = ["Pink", "Orange", "Grey", "Coral"]
+  console.log(checked);
+
+  const handleCheck = (event) =>{
+    var updateList = [...checked];
+    
+    if(event.target.checked){
+      updateList = [...checked, event.target.value];
+      
+    }
+    else{
+      updateList.splice(checked.indexOf(event.target.value), 1);
+      
+    }
+    setChecked(updateList);
+  };
+
+  const checkedItems = checked.length
+  ?checked.reduce((total, item) => {
+    return total + ","+item;
+  })
+  :"";
+
+  var isChecked = (item) =>
+  checked.includes(item) ? "checked-item" : "not-checked-item";
+  
+
+
+  /*  change background color
   console.log("Inside App");
   const color = useSelector((state)=>{return state});
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); */
 
-  var bg = {
+  /* var bg = {
     "red" : "#FF0000",
     "blue" : "#0000FF",
     "green" : "#008000",
@@ -27,30 +58,68 @@ function App() {
       }
     }
 
-  }
+  } */
 
+
+
+//previous code
+/* 
+  let dispatch = useDispatch();
+  const colVal = useSelector(state => state.color);
+  useEffect (() => {
+    console.log(props);
+  })
+
+  const handleChange = (e) =>{
+    //setColor(e.target.value);
+    //console.log('Value : ', target.value);
+    //console.log('Color : ', color);
+
+    dispatch({
+      type : "CHANGE_COLOR",
+      type : "DELETE_COLOR",
+      payload:e.target.value
+    })
+  }
+ */
+  
 
   return (
-    <div className="App">
+    <div className="App">      
+      <h1>Choose Colors from the List : </h1>
 
-      <h1>Choose any Colors from Below</h1>
-      
-      <input type='radio' name='colr' value='red' id='red' onClick={()=>dispatch(red())} /> 
-      <label htmlFor='red'>Red</label>
+      <div className="list-container">
+        {checkList.map((item, index) => (
+          <div key={index}>
+            <input value={item} type="checkbox" onChange={handleCheck}/>
+            <span className={isChecked(item)}> {item}</span>
+          </div>
+        ))}
+      </div>
 
-      <input type='radio' name='colr' value='blue' id='blue' onClick={()=>dispatch(blue())} /> 
-      <label htmlFor='blue'>Blue</label>
-
-      <input type='radio' name='colr' value='green' id='green' onClick={()=>dispatch(green())} />  
-      <label htmlFor='green'>Green</label>
-
-      <input type='radio' name='colr' value='yellow' id='yellow' onClick={()=>dispatch(yellow())} />  
-      <label htmlFor='yellow'>Yellow</label>
-
-      <h2>Selected color is : {color}</h2>
-
-    </div>
+      <div>
+        {`Item checked are : ${checkedItems}`}
+      </div>
+   </div>
   );
 }
 
+
+/* const mapStateToProps = state =>{
+  return {
+    data : state
+  }
+}
+
+//if store is updated anytime, this will be called
+const mapDispatchToProps = dispatch => {
+  return{
+    changecolor: (color) => dispatch({
+      type : "CHANGE_COLOR", payload:color
+    })
+  }
+}
+ */
+//This will connect react component to redux store
+//export default connect(mapStateToProps, mapDispatchToProps)(App);
 export default App;
